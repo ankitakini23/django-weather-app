@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Weather App</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Font awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+    integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+    <!-- For the font Quicksand -->
+    <link href="https://fonts.googleapis.com/css?family=Quicksand:300,500" rel="stylesheet">
+
+    <title>What's the weather like?</title>
+    <style>
+    .card-columns {
+    
+    
+    /*@include media-breakpoint-only(lg) {
+    column-count: 4;
+    }
+    @include media-breakpoint-only(xl) {
+    column-count: 5;
+    }*/
+    }
+    .bgImage{
+    
+    }
+    .bodyContainer{
+    padding-top: 20px;
+    }
+    body{
+    background-color: #006080;
+    color: white;
+    /*font-family: "Century Gothic,CenturyGothic,AppleGothic,sans-serif" !important;*/
+    font-family: 'Quicksand', sans-serif !important;
+    
+    background: url("/static/sky-pink-1.jpg") no-repeat center center fixed !important;
+    /*    background-repeat:no-repeat;
+    background-size:1800px 900px;
+    background-position: center;
+    */
+    height: 100%;
+    background-size: cover !important;
+    }
+    .card {
+    border: none;
+    margin: 10px;
+    /*background-color: #006080 !important;/*#264c59 !important;*/
+    /*background-color: transparent;*/
+    background-color:rgba(245, 245, 245, 0.2);
+    }
+    
+    
+    
+    </style>
+    {% load static %}
+    
+  </head>
+  <body>
+    <div class="container bodyContainer" >
+      <div class="row "style="height: 250px" >
+        
+        <div class="col-3">
+          <h1> {{city_name}} </h1>
+          <img  src="/static/{{weather.icon}}"alt="Image" style=" height:20%;">
+        </div>
+        <div class="col-4">
+          <h1>{{main.temp}} ° C</h1>
+          <h1 id="datetime"></h1>
+          <script> var dt = new Date();
+          // document.getElementById("datetime").innerHTML = dt.toLocaleString();
+          //OR
+          //document.getElementById("datetime").innerHTML=dt.getHours()+':'+dt.getMinutes()+':'+dt.getSeconds();
+          //OR
+          var time=dt.getHours()+':'+dt.getMinutes()+(dt.getHours()>12?' P.M':' A.M');
+          document.getElementById("datetime").innerHTML=time;
+          </script>
+          <h3 class="text-muted">Last updated</h3>
+        </div>
+        <div class="col-2">
+          <div class="card text-center shadow" >
+            
+            <div class="card-body">
+              <p class="card-text"><i class="fa fa-thermometer-full"></i>
+              {{main.temp_max}} </p>
+              <h6 class="card-subtitle mb-2 text-black-50"> High </h6>
+              <p class="card-text"><i class="fa fa-thermometer-empty"></i>
+                {{main.temp_min}}</p>
+              <h6 class="card-subtitle mb-2 text-black-50">
+
+               Low </h6>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-2">
+          <div class="card text-center shadow" >
+            <div class="card-body">
+              
+              <p class="card-text">{{sunrise.time}} </p>
+              <h6 class="card-subtitle mb-2 text-black-50"> Sunrise </h6>
+              <p class="card-text">{{sunset.time}} </p>
+              <h6 class="card-subtitle mb-2 text-black-50"> Sunset </h6>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row d-flex align-items-center justify-content-center" style="height: 300px" >
+        <!-- <div class="card-columns  d-flex align-items-center justify-content-center"> -->
+        <!-- <div class="col-sm-6 col-md-4 col-lg-3"> -->
+        <div class="col-6">
+          <div class="card text-center shadow " style="width: auto;height: 200px">
+            <div class="card-body ">
+              <p class="card-text">{{weather.description}} </p>        
+              <p class="card-text">Real Feel : {{main.feels_like}}° C</p>        
+              <p class="card-text">Lattitude : {{coordinates.lat}}°</p>    
+              <p class="card-text">Longitude : {{coordinates.lon}}°</p>    
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card text-center shadow rounded" style="width: auto;height: 200px ;font-weight: 500">
+            <div class="card-body">             
+              <p class="card-text">
+                <i class="fa fa-stopwatch"></i>
+              Pressure : {{main.pressure}} mbar </p>
+              <p class="card-text">
+                <i class="fa fa-tint"></i>
+              Humidity : {{main.humidity}}% </p>
+              <p class="card-text">
+            <i class="fa fa-plane"></i>
+              Wind Speed : {{wind.speed}}m/s</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        <div class="col-8">
+        </div>
+        <!-- </div> -->
+      </div>
+    
+      <br><br>
+      <div class="container">
+
+        <a class="btn btn-secondary" href="{% url 'index' %}" >
+        <i class="fa fa-home"></i>Home</a>
+      
+      <div>Icons made by <a href="https://www.flaticon.com/authors/linector" title="Linector">Linector</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+  </div>
+</div>
+
+  </body>
+</html>

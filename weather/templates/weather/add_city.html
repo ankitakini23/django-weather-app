@@ -1,0 +1,74 @@
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <head>
+      <title>Weather App</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <title>Add a city?</title>
+      <style>
+      .card {
+      border: none !important;
+      margin: 15px !important;
+      /*background-color : transparent !important;*/
+      background-color:rgba(245, 245, 245, 0.2);
+      }
+      body{
+      background-color: lightgrey;
+      font-family: 'Quicksand', sans-serif !important;
+      }
+      </style>
+    </head>
+    <body>
+      <div class="container-fluid jumbotron bg-dark text-white">
+        <!-- <h1 class="title alert alert-success "> -->
+        <h1 class="title alert ">
+        What's the weather like?
+        </h1>
+      </div>
+      <form action="{% url 'index' %}" method="POST">
+        {% csrf_token %}
+        <div class="form-group col-10 justify-content-center">
+          <div class="row d-flex align-items-center">
+            <div class="col-5">
+              {{ form.name | as_crispy_field }}
+            </div>
+            
+          </div>
+          <br>
+          <div class="row d-flex justify-content-center align-items-center">
+            <div class="col-12">
+              <button class="btn btn-success col-2">
+              Add City
+              </button>
+              
+            </div>
+          </div>
+        </div>
+      </form>
+      {% if error_message %}
+        <div class="text-center d-flex align-items-center ">
+          <div class="alert alert-info center-block">
+            <p><strong>{{ error_message }}</strong></p>
+          {% endif %}
+        </div>
+      </div>
+      <br><br><br><br>
+      <div class="container">
+        <div class="row d-flex justify-content-center ">
+          <div>
+            <a href="{% url 'index' %}" class="btn btn-secondary ">
+            <i class="fa fa-home"></i>  Home</a>
+          </div>
+        </div>
+      </div>
+      
+    </body>
+  </html>
