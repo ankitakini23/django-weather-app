@@ -6,13 +6,11 @@ from .forms import CityForm
 from django.urls import reverse
 
 import json
-
 import datetime
 
 url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=metric&appid=d0e6f5c09df2640c45908dd8a94daabe'	
 
 def index(request):
-	# return render(request, 'weather/index-original.html') #returns the index.html template
 	error_message=''
 	if request.method == 'POST': # only true if form is submitted
 		form = CityForm(request.POST) # add actual request data to form for processing
@@ -24,7 +22,7 @@ def index(request):
 				error_message="Invalid City/Country Name"
 		else:
 			error_message="City Successfully Added."			
-			form.save() # will validate and save if validate
+			form.save() # will validate and save if validated
 		context={'form':form,'error_message':error_message}	
 		return(render(request,'weather/add_city.html',context))
 	weather_data=[]
@@ -32,16 +30,15 @@ def index(request):
 	cities = City.objects.all()
 	print(cities)
 	for city in cities:
-		# city_weather = requests.get(url.format(city.name)).json() #request the API data and convert the JSON to Python data types
-		# print(type(city_weather))	#dictionary
+		city_weather = requests.get(url.format(city.name)).json() #request the API data and convert the JSON to Python data types
 
-		# with open("sample.json", "w") as outfile: 
-		# 	json.dump(city_weather,outfile)
+		#Offline file which can be used while coding
+		with open("sample.json", "w") as outfile: 
+			json.dump(city_weather,outfile)
 
-		
-		with open("sample.json", "r") as read_file:
-			city_weather = json.load(read_file)
-
+		#the offline json file
+		# with open("sample.json", "r") as read_file:
+		# 	city_weather = json.load(read_file)
 		# read_file.close()
 
 		# print(city_weather)
